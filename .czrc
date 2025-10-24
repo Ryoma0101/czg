@@ -1,0 +1,105 @@
+{
+  "alias": {
+    "ai": "node ~/.config/czg/ai-commit.js"
+  },
+  "messages": {
+    "type": "コミットの種類を選択してください:",
+    "scope": "変更の範囲を入力してください (任意):",
+    "customScope": "カスタムスコープを入力してください:",
+    "subject": "コミットメッセージを入力してください (AI生成の場合は :ai を入力):",
+    "body": "詳細な説明を入力してください (任意):",
+    "breaking": "破壊的変更の説明 (任意):",
+    "footerPrefixesSelect": "フッターの種類を選択してください (任意):",
+    "customFooterPrefix": "カスタムフッタープレフィックスを入力してください:",
+    "footer": "フッターの内容を入力してください:",
+    "confirmCommit": "上記の内容でコミットしてもよろしいですか？",
+    "generatingByAI": "🤖 AI がコミットメッセージを生成中...",
+    "generatedSelectByAI": "✨ AI が生成したコミットメッセージを使用しますか?"
+  },
+  "types": [
+    {
+      "value": "feat",
+      "name": "feat:     新機能の追加",
+      "emoji": "✨"
+    },
+    {
+      "value": "fix",
+      "name": "fix:      バグ修正",
+      "emoji": "🐛"
+    },
+    {
+      "value": "docs",
+      "name": "docs:     ドキュメントのみの変更",
+      "emoji": "📝"
+    },
+    {
+      "value": "style",
+      "name": "style:    コードの意味に影響しない変更",
+      "emoji": "💄"
+    },
+    {
+      "value": "refactor",
+      "name": "refactor: リファクタリング",
+      "emoji": "♻️"
+    },
+    {
+      "value": "perf",
+      "name": "perf:     パフォーマンス改善",
+      "emoji": "⚡️"
+    },
+    {
+      "value": "test",
+      "name": "test:     テストの追加・修正",
+      "emoji": "✅"
+    },
+    {
+      "value": "build",
+      "name": "build:    ビルドシステムや依存関係の変更",
+      "emoji": "📦"
+    },
+    {
+      "value": "ci",
+      "name": "ci:       CI設定ファイルやスクリプトの変更",
+      "emoji": "👷"
+    },
+    {
+      "value": "chore",
+      "name": "chore:    その他の変更",
+      "emoji": "🔧"
+    }
+  ],
+  "useEmoji": true,
+  "emojiAlign": "center",
+  "themeColorCode": "",
+  "scopes": [],
+  "allowCustomScopes": true,
+  "allowEmptyScopes": true,
+  "customScopesAlign": "bottom",
+  "customScopesAlias": "カスタム",
+  "emptyScopesAlias": "空",
+  "upperCaseSubject": false,
+  "markBreakingChangeMode": false,
+  "allowBreakingChanges": ["feat", "fix"],
+  "breaklineNumber": 100,
+  "breaklineChar": "|",
+  "skipQuestions": [],
+  "issuePrefixes": [
+    { "value": "closed", "name": "closed:   課題は処理済み" },
+    { "value": "fixes", "name": "fixes:    課題を修正" },
+    { "value": "refs", "name": "refs:     課題を参照" }
+  ],
+  "customIssuePrefixAlign": "top",
+  "emptyIssuePrefixAlias": "スキップ",
+  "customIssuePrefixAlias": "カスタム",
+  "allowCustomIssuePrefix": true,
+  "allowEmptyIssuePrefix": true,
+  "confirmColorize": true,
+  "maxHeaderLength": Infinity,
+  "maxSubjectLength": Infinity,
+  "minSubjectLength": 0,
+  "scopeOverrides": undefined,
+  "defaultBody": "",
+  "defaultIssues": "",
+  "defaultScope": "",
+  "defaultSubject": ""
+}
