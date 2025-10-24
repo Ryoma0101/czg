@@ -22,10 +22,10 @@ bash ~/.config/czg/setup.sh
 
 ### lazygit から
 
-| キー | 動作 | 説明 |
-|------|------|------|
-| `A` | AI コミット | AIが自動生成→選択肢から選ぶ |
-| `Z` | czg起動 | subject入力で`:ai`と入力 |
+| キー | 動作        | 説明                        |
+| ---- | ----------- | --------------------------- |
+| `A`  | AI コミット | AIが自動生成→選択肢から選ぶ |
+| `Z`  | czg起動     | subject入力で`:ai`と入力    |
 
 ### コマンドライン
 
@@ -78,18 +78,18 @@ alias gaimsg='bash ~/.config/czg/gemini-commit.sh'
 
 ### Type一覧
 
-| Type | 説明 | 例 |
-|------|------|-----|
-| `feat` | 新機能 | `feat(auth): ログイン機能を追加` |
-| `fix` | バグ修正 | `fix(api): nullエラーを修正` |
-| `docs` | ドキュメント | `docs: READMEを更新` |
-| `style` | コード整形 | `style: インデントを修正` |
-| `refactor` | リファクタリング | `refactor(db): クエリを最適化` |
-| `perf` | パフォーマンス | `perf: 画像読込を高速化` |
-| `test` | テスト | `test: ユニットテストを追加` |
-| `build` | ビルド | `build: webpack設定を更新` |
-| `ci` | CI/CD | `ci: GitHub Actionsを追加` |
-| `chore` | その他 | `chore: 依存関係を更新` |
+| Type       | 説明             | 例                               |
+| ---------- | ---------------- | -------------------------------- |
+| `feat`     | 新機能           | `feat(auth): ログイン機能を追加` |
+| `fix`      | バグ修正         | `fix(api): nullエラーを修正`     |
+| `docs`     | ドキュメント     | `docs: READMEを更新`             |
+| `style`    | コード整形       | `style: インデントを修正`        |
+| `refactor` | リファクタリング | `refactor(db): クエリを最適化`   |
+| `perf`     | パフォーマンス   | `perf: 画像読込を高速化`         |
+| `test`     | テスト           | `test: ユニットテストを追加`     |
+| `build`    | ビルド           | `build: webpack設定を更新`       |
+| `ci`       | CI/CD            | `ci: GitHub Actionsを追加`       |
+| `chore`    | その他           | `chore: 依存関係を更新`          |
 
 ### 形式
 
@@ -104,18 +104,38 @@ docs: インストール手順を追加
 
 ---
 
+## ⌨️ czg キーバインド
+
+### 基本操作
+
+| キー      | 動作                     |
+| --------- | ------------------------ |
+| `↑` / `↓` | 項目選択                 |
+| `Enter`   | 確定                     |
+| `Ctrl+C`  | キャンセル（中断）       |
+| `Tab`     | 補完（該当する場合）     |
+| `Space`   | チェックボックスのトグル |
+
+### 注意事項
+
+- **戻る機能はありません** - 間違えた場合は`Ctrl+C`で中断して最初からやり直してください
+- 各質問は順番に進み、前の項目には戻れません
+- やり直したい場合は最初からやり直す方が確実です
+
+---
+
 ## 🛠️ トラブルシューティング
 
 ### よくあるエラー
 
-| エラー | 原因 | 解決方法 |
-|--------|------|----------|
-| `GEMINI_API_KEY is not set` | API未設定 | `export GEMINI_API_KEY="..."` |
-| `command not found: jq` | jq未インストール | `brew install jq` |
-| `command not found: czg` | czg未インストール | `npm install -g czg` |
-| `No changes detected` | 変更なし/未ステージ | `git add .` を実行 |
-| `API Error: 400` | 無効なAPIキー | キーを確認して再設定 |
-| `API Error: 429` | レート制限 | 少し待ってから再試行 |
+| エラー                      | 原因                | 解決方法                      |
+| --------------------------- | ------------------- | ----------------------------- |
+| `GEMINI_API_KEY is not set` | API未設定           | `export GEMINI_API_KEY="..."` |
+| `command not found: jq`     | jq未インストール    | `brew install jq`             |
+| `command not found: czg`    | czg未インストール   | `npm install -g czg`          |
+| `No changes detected`       | 変更なし/未ステージ | `git add .` を実行            |
+| `API Error: 400`            | 無効なAPIキー       | キーを確認して再設定          |
+| `API Error: 429`            | レート制限          | 少し待ってから再試行          |
 
 ### デバッグコマンド
 
@@ -192,9 +212,10 @@ bash ~/.config/czg/czg-ai
 ### 4. lazygitキーバインド変更
 
 `~/.config/lazygit/config.yml`:
+
 ```yaml
 customCommands:
-  - key: "A"  # 好きなキーに変更可能
+  - key: "A" # 好きなキーに変更可能
     command: "bash ~/.config/czg/czg-ai"
 ```
 
