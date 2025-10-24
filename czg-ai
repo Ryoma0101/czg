@@ -23,21 +23,11 @@ fi
 
 # Check if GEMINI_API_KEY is set
 if [ -z "${GEMINI_API_KEY:-}" ]; then
-    echo -e "${RED}Error: GEMINI_API_KEY is not set${NC}" >&2
-    echo "Please set your Gemini API key:" >&2
-    echo "  export GEMINI_API_KEY='your-api-key'" >&2
-    echo "" >&2
-    echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
+    echo -e "${RED}Error: GEMINI_API_KEY not set${NC}" >&2
     exit 1
 fi
 
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}🤖 AIコミットメッセージ生成${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo ""
-
 # Generate commit message
-echo -e "${YELLOW}📝 変更を解析中...${NC}"
 GENERATED_MSG=$(bash "$GEMINI_SCRIPT")
 
 if [ $? -ne 0 ] || [ -z "$GENERATED_MSG" ]; then
@@ -60,44 +50,16 @@ read -r choice
 
 case $choice in
     1)
-        echo ""
-        echo -e "${GREEN}コミット中...${NC}"
-        if git commit -m "$GENERATED_MSG"; then
-            echo -e "${GREEN}✓ コミット成功${NC}"
-        else
-            echo -e "${RED}✗ コミット失敗${NC}"
-        fi
-        echo ""
-        echo -n "Enterキーでlazygitに戻る..."
-        read -r
+        git commit -m "$GENERATED_MSG"
         ;;
     2)
-        echo ""
-        echo -e "${GREEN}czgを起動中...${NC}"
-        # Export the message for czg to use
         export CZ_DEFAULT_SUBJECT="$GENERATED_MSG"
         czg --config=/Users/fuka/.config/czg/.czrc
-        exit_status=$?
-        if [ $exit_status -ne 0 ]; then
-            echo ""
-            echo -n "Enterキーでlazygitに戻る..."
-            read -r
-        fi
         ;;
     3)
-        echo ""
-        echo -e "${YELLOW}キャンセルしました${NC}"
-        echo ""
-        echo -n "Enterキーでlazygitに戻る..."
-        read -r
         exit 0
         ;;
     *)
-        echo ""
-        echo -e "${RED}無効な選択です。キャンセルしました${NC}"
-        echo ""
-        echo -n "Enterキーでlazygitに戻る..."
-        read -r
         exit 1
         ;;
 esac

@@ -18,11 +18,7 @@ NC='\033[0m' # No Color
 
 # Check if API key is set
 if [ -z "$GEMINI_API_KEY" ]; then
-    echo -e "${RED}Error: GEMINI_API_KEY environment variable is not set${NC}" >&2
-    echo "Please set your Gemini API key:" >&2
-    echo "  export GEMINI_API_KEY='your-api-key'" >&2
-    echo "" >&2
-    echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
+    echo -e "${RED}Error: GEMINI_API_KEY not set${NC}" >&2
     exit 1
 fi
 
@@ -92,8 +88,7 @@ EOF
 
     # Check for API errors
     if echo "$response" | jq -e '.error' > /dev/null 2>&1; then
-        local error_message=$(echo "$response" | jq -r '.error.message')
-        echo -e "${RED}Gemini API Error: ${error_message}${NC}" >&2
+        echo -e "${RED}API Error${NC}" >&2
         exit 1
     fi
 
@@ -102,7 +97,6 @@ EOF
 
     if [ -z "$commit_message" ] || [ "$commit_message" = "null" ]; then
         echo -e "${RED}Failed to generate commit message${NC}" >&2
-        echo "API Response: $response" >&2
         exit 1
     fi
 
@@ -114,9 +108,6 @@ EOF
 
 # Main execution
 main() {
-    echo -e "${GREEN}🤖 Generating commit message with Gemini AI...${NC}" >&2
-
-    # Get the diff
     local diff=$(get_diff)
 
     if [ -z "$diff" ]; then
@@ -124,10 +115,7 @@ main() {
         exit 1
     fi
 
-    # Generate commit message
     local commit_message=$(generate_commit_message "$diff")
-
-    # Output the commit message
     echo "$commit_message"
 }
 
