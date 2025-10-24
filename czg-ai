@@ -62,8 +62,11 @@ case $choice in
     1)
         echo ""
         echo -e "${GREEN}コミット中...${NC}"
-        git commit -m "$GENERATED_MSG"
-        echo -e "${GREEN}✓ コミット成功${NC}"
+        if git commit -m "$GENERATED_MSG"; then
+            echo -e "${GREEN}✓ コミット成功${NC}"
+        else
+            echo -e "${RED}✗ コミット失敗${NC}"
+        fi
         echo ""
         echo -n "Enterキーでlazygitに戻る..."
         read -r
