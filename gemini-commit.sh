@@ -50,20 +50,32 @@ generate_commit_message() {
 - 出力は1行のみ（改行・引用符・コードブロック禁止）
 - Conventional Commits形式（type(scope): subject）
 - typeは次から選択: feat, fix, docs, style, refactor, perf, test, chore, ci, build
-- subjectは50文字以内を目安に簡潔・具体的
+- subjectは50文字以内を目安に、必ず主語・動詞・目的語を含む文で記述（抽象語や要素名のみは禁止）
+- subjectは変更対象や目的が明確になるよう、変更内容を端的に説明する文とする
 - 日本語で記述
 - bodyは不要。subjectのみを出力
 
 品質チェック（内部で自己確認し、出力は1行のみ）:
 - 変更の中心を正しく捉えているか
-- 具体的な動詞を使い、曖昧語を避けているか
+- 具体的な動詞を使い、曖昧語や抽象語を避けているか
 - type/scope/subjectの整合が取れているか
 
 Git Diff:
 ${diff}
 
 出力例:
-feat(auth): ユーザー認証を追加"
+feat(auth): ユーザー認証機能を追加する
+fix(login): ログイン処理のバグを修正する
+refactor(api): API呼び出し部分の構造を整理する
+chore(deps): 依存パッケージのバージョンを更新する
+docs(readme): READMEに使用方法の説明文を追記する
+style(ui): UIレイアウトの配置を調整する
+docs(prompt): コミットメッセージ生成プロンプトの指示文を改善する
+docs(prompt): コミットメッセージ出力例の文体を統一する
+docs(prompt): コミットメッセージ生成プロンプトの説明文を追加する
+docs(prompt): コミットメッセージ生成プロンプトの出力例を拡充する
+
+必ず変更内容や目的を説明する文で出力してください。要素名や抽象語のみは禁止です。必ず主語・動詞・目的語を含む文で出力してください。diffが短い場合も変更理由や目的を含めて説明してください。"
 
     local escaped_prompt=$(echo "$prompt" | jq -Rs .)
 
@@ -75,12 +87,12 @@ feat(auth): ユーザー認証を追加"
       "text": ${escaped_prompt}
     }]
   }],
-  "generationConfig": {
-    "temperature": 0.3,
-    "maxOutputTokens": 200,
-    "topP": 0.8,
-    "topK": 10
-  }
+    "generationConfig": {
+        "temperature": 0.3,
+        "maxOutputTokens": 300,
+        "topP": 0.8,
+        "topK": 10
+    }
 }
 EOF
 )
