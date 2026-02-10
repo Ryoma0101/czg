@@ -44,21 +44,26 @@ generate_commit_message() {
     local escaped_diff=$(echo "$diff" | jq -Rs .)
 
     # Prepare the prompt
-    local prompt="あなたは経験豊富なソフトウェアエンジニアです。以下のgit diffを分析し、適切なコミットメッセージを生成してください。
+    local prompt="あなたは熟練のソフトウェアエンジニア兼リリースノート編集者です。以下のgit diffから、最も重要な変更を一文で要約し、コミットメッセージを生成してください。
 
-要件:
-- Conventional Commits形式に従う（type(scope): subject）
-- typeは以下から選択: feat, fix, docs, style, refactor, perf, test, chore, ci, build
-- subjectは簡潔で明確に（50文字以内を推奨）
+最優先ルール:
+- 出力は1行のみ（改行・引用符・コードブロック禁止）
+- Conventional Commits形式（type(scope): subject）
+- typeは次から選択: feat, fix, docs, style, refactor, perf, test, chore, ci, build
+- subjectは50文字以内を目安に簡潔・具体的
 - 日本語で記述
-- 複数の変更がある場合は、最も重要な変更に焦点を当てる
-- bodyは不要。subjectのみを生成
+- bodyは不要。subjectのみを出力
+
+品質チェック（内部で自己確認し、出力は1行のみ）:
+- 変更の中心を正しく捉えているか
+- 具体的な動詞を使い、曖昧語を避けているか
+- type/scope/subjectの整合が取れているか
 
 Git Diff:
 ${diff}
 
-上記のdiffに基づいて、コミットメッセージのsubject部分のみを1行で出力してください。
-例: feat(auth): ユーザー認証機能を追加"
+出力例:
+feat(auth): ユーザー認証を追加"
 
     local escaped_prompt=$(echo "$prompt" | jq -Rs .)
 

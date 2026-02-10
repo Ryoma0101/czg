@@ -54,7 +54,7 @@ case $choice in
         ;;
     2)
         export CZ_DEFAULT_SUBJECT="$GENERATED_MSG"
-        czg --config=/Users/fuka/.config/czg/.czrc
+        czg --config="$HOME/.config/czg/.czrc"
         ;;
     3)
         exit 0

@@ -6,4 +6,4 @@
 set -e
 
 # Run czg with config
-czg --config=/Users/fuka/.config/czg/.czrc
+czg --config="$HOME/.config/czg/.czrc"
