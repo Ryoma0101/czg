@@ -2,6 +2,7 @@
 
 # czg-ai: Commit with AI-generated message using czg
 # Usage: czg-ai
+# a
 
 set -euo pipefail
 
@@ -43,10 +44,9 @@ echo ""
 # Ask for confirmation
 echo -e "${YELLOW}選択してください:${NC}"
 echo "  1) このメッセージでコミット"
-echo "  2) 生成メッセージを編集して確定"
-echo "  3) czgで編集（新規作成）"
-echo "  4) キャンセル"
-echo -n "[1-4]を選択: "
+echo "  2) czgで編集"
+echo "  3) キャンセル"
+echo -n "[1-3]を選択: "
 read -r choice
 
 case $choice in
@@ -54,21 +54,10 @@ case $choice in
         git commit -m "$GENERATED_MSG"
         ;;
     2)
-        # 生成メッセージを編集して確定
-        echo -e "\n${YELLOW}編集モード: 生成されたメッセージを編集してください（Enterで確定）${NC}"
-        echo "初期メッセージ: $GENERATED_MSG"
-        echo -n "編集後のメッセージを入力（空欄なら初期メッセージを使用）: "
-        read EDITED_MSG
-        if [ -z "$EDITED_MSG" ]; then
-            EDITED_MSG="$GENERATED_MSG"
-        fi
-        git commit -m "$EDITED_MSG"
-        ;;
-    3)
-        export CZ_DEFAULT_SUBJECT=""
+        export CZ_DEFAULT_SUBJECT="$GENERATED_MSG"
         czg --config="$HOME/.config/czg/.czrc"
         ;;
-    4)
+    3)
         exit 0
         ;;
     *)
