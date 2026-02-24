@@ -40,42 +40,39 @@ get_diff() {
 generate_commit_message() {
     local diff="$1"
 
+    # Save diff for debugging
+    echo "$diff" > /tmp/gemini_diff.txt
+
     # Escape and prepare the diff for JSON
     local escaped_diff=$(echo "$diff" | jq -Rs .)
 
     # Prepare the prompt
-    local prompt="あなたは熟練のソフトウェアエンジニア兼リリースノート編集者です。以下のgit diffから、最も重要な変更を一文で要約し、コミットメッセージを生成してください。
+    local prompt="You are an expert software engineer. Analyze the git diff and generate a commit message following Conventional Commits format.
 
-最優先ルール:
-- 出力は1行のみ（改行・引用符・コードブロック禁止）
-- Conventional Commits形式（type(scope): subject）
-- typeは次から選択: feat, fix, docs, style, refactor, perf, test, chore, ci, build
-- subjectは50文字以内を目安に、必ず主語・動詞・目的語を含む文で記述（抽象語や要素名のみは禁止）
-- subjectは変更対象や目的が明確になるよう、変更内容を端的に説明する文とする
-- 日本語で記述
-- bodyは不要。subjectのみを出力
+**STRICT RULES:**
+- Output exactly one line: type(scope): subject
+- Type must be from: feat, fix, docs, style, refactor, perf, test, chore, ci, build
+- Subject must be a complete sentence in Japanese (10-50 characters)
+- Sentence must end with a verb in plain form, no period
+- No abstract terms or element names only
 
-品質チェック（内部で自己確認し、出力は1行のみ）:
-- 変更の中心を正しく捉えているか
-- 具体的な動詞を使い、曖昧語や抽象語を避けているか
-- type/scope/subjectの整合が取れているか
+**Output examples:**
+feat(auth): ユーザー認証機能を追加する
+fix(api): エンドポイントのバグを修正する
+refactor(utils): ユーティリティ関数の構造を整理する
+docs(readme): READMEファイルの使用方法を追記する
+chore(deps): 依存パッケージのバージョンを更新する
 
-Git Diff:
+**Analysis steps:**
+1. Identify main changes from git diff
+2. Select appropriate type based on change nature
+3. Determine concise scope representing change area
+4. Describe specific change in complete Japanese sentence
+
+**Git diff:**
 ${diff}
 
-出力例:
-feat(auth): ユーザー認証機能を追加する
-fix(login): ログイン処理のバグを修正する
-refactor(api): API呼び出し部分の構造を整理する
-chore(deps): 依存パッケージのバージョンを更新する
-docs(readme): READMEに使用方法の説明文を追記する
-style(ui): UIレイアウトの配置を調整する
-docs(prompt): コミットメッセージ生成プロンプトの指示文を改善する
-docs(prompt): コミットメッセージ出力例の文体を統一する
-docs(prompt): コミットメッセージ生成プロンプトの説明文を追加する
-docs(prompt): コミットメッセージ生成プロンプトの出力例を拡充する
-
-必ず変更内容や目的を説明する文で出力してください。要素名や抽象語のみは禁止です。必ず主語・動詞・目的語を含む文で出力してください。diffが短い場合も変更理由や目的を含めて説明してください。"
+**Output only the commit message, nothing else:**"
 
     local escaped_prompt=$(echo "$prompt" | jq -Rs .)
 
@@ -88,9 +85,9 @@ docs(prompt): コミットメッセージ生成プロンプトの出力例を拡
     }]
   }],
     "generationConfig": {
-        "temperature": 0.3,
-        "maxOutputTokens": 300,
-        "topP": 0.8,
+        "temperature": 0.1,
+        "maxOutputTokens": 500,
+        "topP": 0.5,
         "topK": 10
     }
 }
@@ -115,7 +112,7 @@ EOF
     fi
 
     # Debug: Save response to temp file for inspection
-    # echo "$response_body" > /tmp/gemini_response.json
+    echo "$response_body" > /tmp/gemini_response.json
 
     # Check for API errors
     if echo "$response_body" | jq -e '.error' > /dev/null 2>&1; then
